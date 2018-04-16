@@ -1,4 +1,4 @@
-/*
+﻿/*
  * funkcje.c
  *
  * Created: 14.04.2017 18:29:27
@@ -532,23 +532,21 @@ void wyswietl_zmienne(int stanMenu)
 
 void steruj_wyjsciami()
 {
-	
-		
 		////////////////////////WYJSCIE 1//////////////////////////////////////////////////
 		
-	if(((SPRAWDZ_0_NA(PINB, 3)) && (temperatura_2 > tempZadana2)) || (temperatura_2 > 80))
-	    USTAW(PORTC, 7);
+		if(((SPRAWDZ_0_NA(PINB, 3)) && (temperatura_2 > tempZadana2)) || (temperatura_2 > 80))
+			USTAW(PORTC, 5);
 		
-	else if(!(((SPRAWDZ_0_NA(PINB, 3)) && (temperatura_2 > tempZadana2 )) || (temperatura_2 > 80)))
-	    ZERUJ(PORTC, 7);	
+		else if(!(((SPRAWDZ_0_NA(PINB, 3)) && (temperatura_2 > tempZadana2 )) || (temperatura_2 > 80)))
+			ZERUJ(PORTC, 5);
 		
 		///////////////////////WYJSCIE 2////////////////////////////////////////////////
 		
-		if(((temperatura_1 < tempZadana1) && ( temperatura_2 > 40)) || (temperatura_2 > 80))
-		USTAW(PORTC, 6);
+		if(((temperatura_1 < tempZadana1) && ( temperatura_2 > ( temperatura_1 + 5))) || (temperatura_2 > 80))
+			USTAW(PORTC, 6);
 		
-		else if(!(((temperatura_1 < tempZadana1) && ( temperatura_2 > 40)) || (temperatura_2 > 80)))
-		ZERUJ(PORTC, 6);
+		else if(!(((temperatura_1 < tempZadana1) && ( temperatura_2 > ( temperatura_1 + 5))) || (temperatura_2 > 80)))
+			ZERUJ(PORTC, 6);
 		
 		////////////////////////WYJSCIE 3////////////////////////////////////////////////
 		
@@ -556,13 +554,13 @@ void steruj_wyjsciami()
 		{
 			timerON = 1;
 
-			if(timer <= 1)
-				USTAW(PORTC,5);
+			if(timer <= 100)
+				USTAW(PORTC,4);
 
-			if(timer > 1)
-				ZERUJ(PORTC,5);
+			if(timer > 100)
+				ZERUJ(PORTC,4);
 
-			if(timer > 3)
+			if(timer > 300)
 				timer = 0;
 		}
 		
@@ -571,8 +569,17 @@ void steruj_wyjsciami()
 			timerON = 0;
 			timer = 0;
 
-			ZERUJ(PORTC,5);
+			ZERUJ(PORTC,4);
 		}
+            
+               ////////////////////////WYJSCIE pk/////////////////////////////////////////////////
+		
+	    if(((SPRAWDZ_0_NA(PINB, 3)) && (temperatura_2 <= tempZadana2)))
+	    	USTAW(PORTC, 7);
+		
+	    else if(!(((SPRAWDZ_0_NA(PINB, 3)) && (temperatura_2 <= tempZadana2 ))))
+	    	ZERUJ(PORTC, 7);
+		
 
 }
 
