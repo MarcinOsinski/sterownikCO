@@ -28,14 +28,6 @@
 		LCD_WriteData(wynik[i]);
  }
 
- void ruski_debugger(int variable, int size)
- {
-	LCD_GoTo(13,1);
-
-	showInt(variable, size);
- }
-
-
 
  void config()
  {
