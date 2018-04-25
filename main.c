@@ -1,11 +1,3 @@
-/*
- * main.c
- *
- * Created: 14.04.2017 18:28:46
- *  Author: Marcin Osi�ski
- */ 
-
-
  #include "functions.h"
 
 
