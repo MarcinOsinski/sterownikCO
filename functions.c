@@ -1,10 +1,3 @@
-/*
- * functions.c
- *
- * Created: 14.04.2017 18:29:27
- *  Author: Marcin Osinski
- */
-
  #include "functions.h"
 
  extern int tempToSet1;
