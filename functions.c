@@ -1,5 +1,5 @@
 /*
- * funktions.c
+ * functions.c
  *
  * Created: 14.04.2017 18:29:27
  *  Author: Marcin Osinski
@@ -18,14 +18,35 @@
  extern unsigned char romCode1[9];
  extern unsigned char romCode2[9];
 
- void showInt(int intToShow, int size)
+ int howManyDigits(int number)
  {
-	 char wynik[size];
+	 if(number < 10)
+		 return 1;
+	 else if(number >= 10 && number < 100)
+		 return 2;
+	 else if(number >= 100 && number < 1000)
+		 return 3;
 
-	 sprintf(wynik, "%d", intToShow);
+	 return 0;
+ }
 
-	 for (unsigned int i = 0; i < (size - 1); i++)
-		LCD_WriteData(wynik[i]);
+ void showInt(int intToShow, int posx, int posy)
+ {
+	int size = howManyDigits(intToShow);
+
+	char buf[size];
+
+	sprintf(buf, "%d", intToShow);
+
+	LCD_GoTo(posx, posy);
+
+	for (unsigned int i = 0; i < size; i++)
+	{
+		LCD_WriteData(buf[i]);
+	}
+
+	LCD_GoTo(posx + size, posy);
+	LCD_WriteText(" ");
  }
 
 
@@ -37,10 +58,10 @@
 
 	PORTC = 0xff;
 
-	TCCR1B |= (1 << WGM12);
-	OCR1A = 62500;
-	TCCR1B |= (1 << CS12);
-	TIMSK  = (1<<OCIE1A);
+	TCCR1B |= (1 << WGM12); //clear timer on compare match
+	OCR1A = 62500; // compare match value
+	TCCR1B |= (1 << CS12); // /256 prescaler
+	TIMSK  = (1<<OCIE1A); // enable interrupt on compare match
 
 	tempToSet1 = eeprom_read_byte((uint8_t*) 11);
 	tempToSet2 = eeprom_read_byte((uint8_t*) 12);
@@ -494,23 +515,18 @@ void showValues(int menuState)
 	switch(menuState)
 	{
 		case MENU_MAIN_SCREEN:
-			LCD_GoTo(13, 0);
-			showInt(temperature1, 3);
-
-			LCD_GoTo(13, 1);
-			showInt(temperature2, 3);
+			showInt(temperature1, 13, 0);
+			showInt(temperature2, 13, 1);
 
 			break;
 
 		case MENU_TEMP1:
-			LCD_GoTo(7, 1);
-			showInt(tempToSet1, 3);
+			showInt(tempToSet1, 7, 1);
 
 			break;
 
 		case MENU_TEMP2:
-			LCD_GoTo(7, 1);
-			showInt(tempToSet2, 3);
+			showInt(tempToSet2, 7, 1);
 
 			break;
 	}
@@ -526,7 +542,7 @@ void setOutputs()
 		else if(!(((CHECK_0_AT(PINB, 3)) && (temperature2 > tempToSet2 )) || (temperature2 > 80)))
 			CLEAR(PORTC, 5);
 
-		///////////////////////WYJSCIE 2////////////////////////////////////////////////
+		///////////////////////OUTPUT 2////////////////////////////////////////////////
 
 		if(((temperature1 < tempToSet1) && ( temperature2 > ( temperature1 + 5))) || (temperature2 > 80))
 			SET(PORTC, 6);
@@ -534,7 +550,7 @@ void setOutputs()
 		else if(!(((temperature1 < tempToSet1) && ( temperature2 > ( temperature1 + 5))) || (temperature2 > 80)))
 			CLEAR(PORTC, 6);
 
-		////////////////////////WYJSCIE 3////////////////////////////////////////////////
+		////////////////////////OUTPUT 3////////////////////////////////////////////////
 
 		if(((temperature1 > tempToSet1) && (CHECK_0_AT(PINB, 4))) || (temperature2 > 80))
 		{
