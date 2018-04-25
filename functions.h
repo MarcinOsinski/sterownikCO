@@ -1,5 +1,11 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+/*
+ * funkcje.h
+ *
+ * Created: 14.04.2017 18:29:42
+ *  Author: Student235267
+ */ 
+#ifndef FUNKCJE_H
+#define FUNKCJE_H
 
 #include <avr/io.h>
 #include <avr/io.h>
@@ -38,16 +44,16 @@
 #define MENU_MAIN_SCREEN			1
 #define MENU_PROG_PROBE				2
 #define MENU_TEMP_TO_SET			3
-#define MENU_CHOICE					  4
+#define MENU_CHOICE					4
 #define MENU_PROG_PROBE1			5
 #define MENU_PROG_PROBE2			6
-#define MENU_TEMP1					  7
-#define MENU_TEMP2					  8
-#define MENU_PASSWORD_ERROR		9
-#define MENU_PASSWORD_GOOD		10
+#define MENU_TEMP1					7
+#define MENU_TEMP2					8
+#define MENU_PASSWORD_ERROR			9
+#define MENU_PASSWORD_GOOD			10
 
-
-void showInt(int intToShow, int size);
+int howManyDigits(int number);
+void showInt(int intToShow, int posx, int posy);
 
 void config();
 void welcomeScreen();
