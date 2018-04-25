@@ -1,9 +1,3 @@
-/*
- * funkcje.h
- *
- * Created: 14.04.2017 18:29:42
- *  Author: Student235267
- */ 
 #ifndef FUNKCJE_H
 #define FUNKCJE_H
 
